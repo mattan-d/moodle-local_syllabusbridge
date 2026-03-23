@@ -56,8 +56,12 @@ if (!empty($course->summary)) {
     }
 }
 
+$meta = local_syllabusbridge_get_course_meta_for_payload($course);
+$teachers = local_syllabusbridge_get_course_teachers_for_payload((int) $course->id);
+$customfields = local_syllabusbridge_get_course_custom_fields_for_payload((int) $course->id);
+
 $payload = [
-    'v' => 1,
+    'v' => 2,
     'iat' => time(),
     'moodle_user_id' => (int) $USER->id,
     'email' => $email,
@@ -69,7 +73,9 @@ $payload = [
     'course_shortname' => (string) $course->shortname,
     'course_idnumber' => (string) ($course->idnumber ?? ''),
     'summary' => $summary,
-];
+    'course_teachers' => $teachers,
+    'course_custom_fields' => $customfields,
+] + $meta;
 
 $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 if ($json === false) {
