@@ -164,10 +164,11 @@ function local_syllabusbridge_get_course_teachers_for_payload($courseid) {
         if (!$role) {
             continue;
         }
+        // false = רק שיבוץ תפקיד בהקשר הקורס הזה, בלי «ירושה» מאתר/קטגוריה (אחרת מופיעים מנהלים גלובליים וכו׳).
         $users = get_role_users(
             (int) $role->id,
             $ctx,
-            true,
+            false,
             'u.id, u.firstname, u.lastname, u.email, u.deleted',
             'u.lastname ASC, u.firstname ASC',
             true
