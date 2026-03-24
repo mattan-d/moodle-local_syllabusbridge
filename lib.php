@@ -38,6 +38,81 @@ function local_syllabusbridge_can_use_bridge(context_course $coursecontext): boo
 }
 
 /**
+ * כניסה לניהול הסילבוס דרך קישור אתרי (ללא קורס).
+ *
+ * מותר: מנהל אתר, בעלי יכולת local/syllabusbridge:sso בהקשר מערכת,
+ * או כל מי שיכול להשתמש בגשר לפחות בקורס אחד שאליו הוא רשום.
+ */
+function local_syllabusbridge_can_site_sso(): bool {
+    global $USER;
+
+    if (!isloggedin() || isguestuser()) {
+        return false;
+    }
+
+    if (empty(trim((string) get_config('local_syllabusbridge', 'appurl')))) {
+        return false;
+    }
+    if (empty((string) get_config('local_syllabusbridge', 'sharedsecret'))) {
+        return false;
+    }
+
+    if (is_siteadmin()) {
+        return true;
+    }
+
+    $syscontext = context_system::instance();
+    if (has_capability('local/syllabusbridge:sso', $syscontext)) {
+        return true;
+    }
+
+    foreach (enrol_get_all_users_courses($USER->id, true, ['id']) as $c) {
+        $coursecontext = context_course::instance((int) $c->id);
+        if (local_syllabusbridge_can_use_bridge($coursecontext)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * תפקיד ל-payload SSO (v3): כמו launch.php — עורך קורס = editor, מורה = viewer.
+ * אם אין קורס מתאים אבל יש יכולת SSO במערכת — editor (סטאף ללא קורס).
+ *
+ * @return string admin|editor|viewer
+ */
+function local_syllabusbridge_user_app_role_for_sso(): string {
+    global $USER;
+
+    if (is_siteadmin()) {
+        return 'admin';
+    }
+
+    $foundBridgeCourse = false;
+    foreach (enrol_get_all_users_courses($USER->id, true, ['id']) as $c) {
+        $ctx = context_course::instance((int) $c->id);
+        if (!local_syllabusbridge_can_use_bridge($ctx)) {
+            continue;
+        }
+        $foundBridgeCourse = true;
+        if (has_capability('moodle/course:update', $ctx)) {
+            return 'editor';
+        }
+    }
+
+    if ($foundBridgeCourse) {
+        return 'viewer';
+    }
+
+    if (has_capability('local/syllabusbridge:sso', context_system::instance())) {
+        return 'editor';
+    }
+
+    return 'viewer';
+}
+
+/**
  * תפריט הקורס (מגירה / ניווט קורס ב-Boost) — קישור גלוי למורים.
  *
  * @param global_navigation $navigation

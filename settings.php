@@ -36,4 +36,11 @@ if ($hassiteconfig) {
         '-1',
         PARAM_INT
     ));
+
+    $ssourl = (new moodle_url('/local/syllabusbridge/sso.php'))->out(false);
+    $settings->add(new admin_setting_description(
+        'local_syllabusbridge/sso_help',
+        get_string('ssosettings', 'local_syllabusbridge'),
+        get_string('ssosettings_desc', 'local_syllabusbridge', (object) ['url' => $ssourl])
+    ));
 }
