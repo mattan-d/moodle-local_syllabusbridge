@@ -1,15 +1,15 @@
 <?php
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'גשר לאפליקציית סילבוס';
-$string['navlaunch'] = 'אפליקציה לניהול סילבוס';
-$string['appurl'] = 'כתובת בסיס של האפליקציה';
-$string['appurl_desc'] = 'כתובת מלאה לתיקיית public של האפליקציה, בלי סלאש בסוף (למשל https://example.org/standalone/public).';
+$string['pluginname'] = 'גשר לניהול סילבוס';
+$string['navlaunch'] = 'ניהול סילבוס';
+$string['appurl'] = 'כתובת בסיס מערכת ניהול הסילבוס';
+$string['appurl_desc'] = 'כתובת מלאה לתיקיית public של מערכת ניהול הסילבוס, ללא סלאש בסוף. הכתובת מסופקת במסגרת השירות של מ.ר סנטריקאפ בע״מ (שירותי CentricApp, דומיינים תחת centricapp.co.il) — לדוגמה https://syllabus.centricapp.co.il/public או הכתובת המדויקת שנמסרה לכם מהחברה.';
 $string['sharedsecret'] = 'סוד משותף (HMAC)';
-$string['sharedsecret_desc'] = 'חייב להיות זהה ל-MOODLE_BRIDGE_SECRET בקובץ config.php של האפליקציה.';
-$string['errorconfig'] = 'כתובת האפליקציה או הסוד המשותף לא הוגדרו. פנה למנהל המערכת.';
-$string['erroremail'] = 'חובה שיהיה כתובת דוא״ל תקינה בחשבון המודל כדי להשתמש באפליקציית הסילבוס.';
-$string['cannotusebridge'] = 'אין לך הרשאה לפתוח את אפליקציית הסילבוס בקורס זה (נדרשת גישת מורה או עורך קורס).';
+$string['sharedsecret_desc'] = 'חייב להיות זהה לערך MOODLE_BRIDGE_SECRET בקובץ config.php של מערכת ניהול הסילבוס. יש לקבל את הסוד המשותף ממ.ר סנטריקאפ בע״מ; אין לחשוף אותו או להעבירו בערוצים לא מאובטחים.';
+$string['errorconfig'] = 'כתובת מערכת הניהול או הסוד המשותף לא הוגדרו. פנה למנהל המערכת.';
+$string['erroremail'] = 'חובה שיהיה כתובת דוא״ל תקינה בחשבון המודל כדי להשתמש בניהול הסילבוס.';
+$string['cannotusebridge'] = 'אין לך הרשאה לפתוח את ניהול הסילבוס בקורס זה (נדרשת גישת מורה או עורך קורס).';
 $string['syncuserid'] = 'מזהה משתמש ליצירת פעילויות בקורס';
 $string['syncuserid_desc'] = 'מזהה משתמש במודל שבשמו נוצרת/מתעדכנת פעילות הקישור (חייב הרשאת ניהול פעילויות בקורס היעד). 0 = משתמש מנהל ראשון שנמצא.';
 $string['urlsection'] = 'מספר יחידה לשיבוץ קישור הסילבוס';
